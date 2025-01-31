@@ -83,10 +83,12 @@
         // Obtiene los valores ingresados
         const usuario = document.getElementById("usuario").value;
         const correo = document.getElementById("correo").value;
+        const password = document.getElementById("password").value;
 
-        // Guarda los datos en el almacenamiento local para mostrarlos en welcome.html
+        // Guarda los datos en el almacenamiento local
         localStorage.setItem("usuario", usuario);
         localStorage.setItem("correo", correo);
+        localStorage.setItem("password", password);
 
         // Redirige a la página de bienvenida
         window.location.href = "welcome.html";
