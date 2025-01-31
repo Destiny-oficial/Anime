@@ -62,8 +62,8 @@
 </div>
 
 <div class="container">
-    <h2>¡Hola, Usuario!</h2>
-    <p>Bienvenido a tu dashboard. Aquí puedes acceder a tus opciones y personalizar tu experiencia en Anime Offis.</p>
+    <h2 id="welcomeMessage">¡Hola, Usuario!</h2>
+    <p>Este es tu dashboard donde puedes acceder a todas tus opciones y configuraciones.</p>
 
     <a href="perfil.html" class="btn">Mi Perfil</a>
     <a href="favoritos.html" class="btn">Mis Favoritos</a>
@@ -74,6 +74,18 @@
 <div class="footer">
     <p><a href="acerca.html">Acerca de la página</a> | <a href="terminos.html">Términos y condiciones</a></p>
 </div>
+
+<script>
+    // Obtener el usuario logueado desde localStorage
+    const usuarioLogueado = localStorage.getItem("loggedUser");
+
+    // Si no hay usuario logueado, redirigir al login
+    if (!usuarioLogueado) {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("welcomeMessage").innerHTML = `¡Hola, ${usuarioLogueado}!`;
+    }
+</script>
 
 </body>
 </html>
