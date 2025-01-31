@@ -64,17 +64,34 @@
 
 <div class="register-container">
     <h2>Crear una Cuenta</h2>
-    <form action="welcome.html" method="POST">
-        <input type="text" name="usuario" placeholder="Nombre de Usuario" required>
-        <input type="email" name="correo" placeholder="Correo Electrónico" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <input type="text" name="codigo_ref" placeholder="Código de Referencia (Opcional)">
+    <form id="registroForm">
+        <input type="text" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+        <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <input type="text" id="codigo_ref" name="codigo_ref" placeholder="Código de Referencia (Opcional)">
         <button type="submit" class="btn">Registrarse</button>
     </form>
     <div class="login-link">
         ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
     </div>
 </div>
+
+<script>
+    document.getElementById("registroForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita que el formulario recargue la página
+
+        // Obtiene los valores ingresados
+        const usuario = document.getElementById("usuario").value;
+        const correo = document.getElementById("correo").value;
+
+        // Guarda los datos en el almacenamiento local para mostrarlos en welcome.html
+        localStorage.setItem("usuario", usuario);
+        localStorage.setItem("correo", correo);
+
+        // Redirige a la página de bienvenida
+        window.location.href = "welcome.html";
+    });
+</script>
 
 </body>
 </html>
