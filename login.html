@@ -58,21 +58,55 @@
         .register-link a:hover {
             text-decoration: underline;
         }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="login-container">
     <h2>Iniciar Sesión</h2>
-    <form action="dashboard.html" method="POST">
-        <input type="text" name="usuario" placeholder="Correo o Nombre de Usuario" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button type="submit" class="btn">Ingresar</button>
+    <form id="loginForm">
+        <input type="text" id="usuario" name="usuario" placeholder="Correo o Nombre de Usuario" required>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+        <p class="error-message" id="errorMensaje">Usuario o contraseña incorrectos</p>
+        <button type="submit" class="btn">Entrar</button>
     </form>
     <div class="register-link">
         ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
     </div>
 </div>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita que el formulario recargue la página
+
+        // Obtener los datos ingresados
+        const usuarioIngresado = document.getElementById("usuario").value;
+        const passwordIngresado = document.getElementById("password").value;
+
+        // Obtener los datos almacenados en registro.html
+        const usuarioGuardado = localStorage.getItem("usuario");
+        const correoGuardado = localStorage.getItem("correo");
+        const passwordGuardado = localStorage.getItem("password");
+
+        // Verificar si coinciden con el usuario registrado
+        if (
+            (usuarioIngresado === usuarioGuardado || usuarioIngresado === correoGuardado) &&
+            passwordIngresado === passwordGuardado
+        ) {
+            // Guardar el usuario logueado y redirigir al dashboard
+            localStorage.setItem("loggedUser", usuarioGuardado);
+            window.location.href = "dashboard.html";
+        } else {
+            // Mostrar mensaje de error
+            document.getElementById("errorMensaje").style.display = "block";
+        }
+    });
+</script>
 
 </body>
 </html>
