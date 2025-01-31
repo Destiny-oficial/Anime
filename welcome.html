@@ -49,11 +49,21 @@
 
 <div class="welcome-container">
     <h2>¡Registro Exitoso!</h2>
-    <p>Bienvenido a Anime Offis, la página de anime más rápida de LATAM.</p>
+    <p id="userMessage">Bienvenido a Anime Offis, la página de anime más rápida de LATAM.</p>
     <p>Ahora puedes iniciar sesión y explorar todo nuestro contenido.</p>
     <a href="login.html" class="btn">Iniciar Sesión</a>
     <a href="index.html" class="btn" style="background:#007bff;">Ir a la Página Principal</a>
 </div>
+
+<script>
+    // Obtiene el usuario registrado desde localStorage
+    const usuario = localStorage.getItem("usuario");
+
+    // Si hay un usuario registrado, personaliza el mensaje
+    if (usuario) {
+        document.getElementById("userMessage").innerHTML = `¡Bienvenido, ${usuario}!`;
+    }
+</script>
 
 </body>
 </html>
