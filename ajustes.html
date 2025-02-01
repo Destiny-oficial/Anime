@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes de Perfil - Anime Offis</title>
+    <style>
+        /* Reglas globales de diseño */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #ff4500;
+        }
+
+        .profile-img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-img-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff4500;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img-container .edit-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-img-container .edit-btn:hover {
+            background-color: #e03e00;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-group input {
+            width: 80%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            margin: 5px;
+            transition: border 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #ff4500;
+            outline: none;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #ff4500;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #e03e00;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header de ajustes -->
+    <div class="header">
+        <h1>Ajustes de Perfil</h1>
+        <p>Modifica tu foto de perfil, datos de usuario y preferencias.</p>
+    </div>
+
+    <!-- Imagen de perfil y botón para editar -->
+    <div class="profile-img-container">
+        <img id="perfilImagen" src="https://via.placeholder.com/120" alt="Imagen de Perfil">
+        <button class="edit-btn" id="editImageBtn">✎</button>
+    </div>
+
+    <!-- Formulario para actualizar los datos -->
+    <form id="ajustesForm">
+        <div class="input-group">
+            <input type="text" id="nuevoNombre" placeholder="Nuevo Nombre de Usuario" required />
+        </div>
+        <div class="input-group">
+            <input type="email" id="nuevoCorreo" placeholder="Nuevo Correo Electrónico" required />
+        </div>
+        <div class="input-group">
+            <input type="password" id="nuevaContraseña" placeholder="Nueva Contraseña" required />
+        </div>
+        <button type="submit" class="save-btn">Guardar Cambios</button>
+    </form>
+
+    <!-- Volver al perfil -->
+    <a href="perfil.html" class="back-link">Volver al Perfil</a>
+
+    <!-- Footer con enlaces -->
+    <div class="footer">
+        <p><a href="acerca.html">Acerca de la página</a> | <a href="terminos.html">Términos y condiciones</a></p>
+    </div>
+</div>
+
+<!-- Script para manejar la lógica -->
+<script>
+    // Obtener los datos del usuario
+    const usuarioLogueado = localStorage.getItem("loggedUser");
+    const correoGuardado = localStorage.getItem("correo");
+    const imagenGuardada = localStorage.getItem("perfilImagen");
+
+    // Si no hay usuario logueado, redirigir al login
+    if (!usuarioLogueado) {
+        window.location.href = "login.html";
+    }
+
+    // Mostrar los datos en los campos
+    document.getElementById("nuevoNombre").value = usuarioLogueado;
+    document.getElementById("nuevoCorreo").value = correoGuardado;
+    if (imagenGuardada) {
+        document.getElementById("perfilImagen").src = imagenGuardada;
+    }
+
+    // Manejo de la carga de imagen
+    document.getElementById("editImageBtn").addEventListener("click", function() {
+        const inputImagen = document.createElement('input');
+        inputImagen.type = 'file';
+        inputImagen.accept = 'image/*';
+        
+        inputImagen.addEventListener('change', function(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("perfilImagen").src = e.target.result;
+                    localStorage.setItem("perfilImagen", e.target.result);
+                };
+                reader.readAsDataURL(archivo);
+            }
+        });
+
+        inputImagen.click();
+    });
+
+    // Manejo del formulario de actualización de datos
+    document.getElementById("ajustesForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const nuevoNombre = document.getElementById("nuevoNombre").value;
+        const nuevoCorreo = document.getElementById("nuevoCorreo").value;
+        const nuevaContraseña = document.getElementById("nuevaContraseña").value;
+
+        // Actualizar los datos en localStorage
+        if (nuevoNombre) {
+            localStorage.setItem("loggedUser", nuevoNombre);
+        }
+        if (nuevoCorreo) {
+            localStorage.setItem("correo", nuevoCorreo);
+        }
+        if (nuevaContraseña) {
+            localStorage.setItem("password", nuevaContraseña);
+        }
+
+        alert("Datos actualizados correctamente");
+    });
+</script>
+
+</body>
+</html>

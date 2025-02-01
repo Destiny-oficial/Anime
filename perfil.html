@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Anime Offis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background: #ff4500;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #ff4500;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background: #e03e00;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .verification-badge {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    Mi Perfil - Anime Offis
+</div>
+
+<div class="container">
+    <h2 id="perfilNombre">¡Hola, Usuario!</h2>
+    <p id="perfilCorreo">Correo: usuario@correo.com</p>
+
+    <!-- Imagen de perfil -->
+    <img id="perfilImagen" class="profile-image" src="https://postimage.me/images/2025/01/31/IMG-20250131-WA0046.jpg" alt="Imagen de Perfil">
+
+    <!-- Verificación Badge -->
+    <div id="verificacion" class="verification-badge"></div>
+
+    <h3>Actualizar Información</h3>
+    <form id="perfilForm">
+        <!-- Formulario para cargar imagen -->
+        <input type="file" id="inputImagen" accept="image/*" />
+        
+        <input type="text" id="nuevoNombre" placeholder="Nuevo Nombre de Usuario" />
+        <input type="email" id="nuevoCorreo" placeholder="Nuevo Correo Electrónico" />
+        <input type="password" id="nuevaContraseña" placeholder="Nueva Contraseña" />
+        <button type="submit" class="btn">Actualizar Datos</button>
+    </form>
+    
+    <a href="dashboard.html" class="btn">Volver al Dashboard</a>
+</div>
+
+<div class="footer">
+    <p><a href="acerca.html">Acerca de la página</a> | <a href="terminos.html">Términos y condiciones</a></p>
+</div>
+
+<script>
+    // Obtener el usuario logueado desde localStorage
+    const usuarioLogueado = localStorage.getItem("loggedUser");
+    const correoGuardado = localStorage.getItem("correo");
+    const imagenGuardada = localStorage.getItem("perfilImagen");
+
+    // Si no hay usuario logueado, redirigir al login
+    if (!usuarioLogueado) {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("perfilNombre").innerHTML = `¡Hola, ${usuarioLogueado}!`;
+        document.getElementById("perfilCorreo").innerHTML = `Correo: ${correoGuardado}`;
+    }
+
+    // Mostrar imagen guardada, si existe
+    if (imagenGuardada) {
+        document.getElementById("perfilImagen").src = imagenGuardada;
+    }
+
+    // Mostrar la verificación si el correo es el del usuario verificado
+    if (correoGuardado === "destiny58336@gmail.com") {
+        document.getElementById("verificacion").innerHTML = "✔️ Usuario Verificado";
+    }
+
+    // Evento para actualizar los datos del perfil
+    document.getElementById("perfilForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Obtener los nuevos valores
+        const nuevoNombre = document.getElementById("nuevoNombre").value;
+        const nuevoCorreo = document.getElementById("nuevoCorreo").value;
+        const nuevaContraseña = document.getElementById("nuevaContraseña").value;
+
+        // Actualizar los datos en localStorage si se ingresan nuevos
+        if (nuevoNombre) {
+            localStorage.setItem("usuario", nuevoNombre);
+            document.getElementById("perfilNombre").innerHTML = `¡Hola, ${nuevoNombre}!`;
+        }
+        if (nuevoCorreo) {
+            localStorage.setItem("correo", nuevoCorreo);
+            document.getElementById("perfilCorreo").innerHTML = `Correo: ${nuevoCorreo}`;
+        }
+        if (nuevaContraseña) {
+            localStorage.setItem("password", nuevaContraseña);
+        }
+
+        alert("Datos actualizados correctamente");
+    });
+
+    // Función para manejar el cambio de imagen
+    document.getElementById("inputImagen").addEventListener("change", function(event) {
+        const archivo = event.target.files[0];
+
+        if (archivo) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Cambiar la imagen del perfil
+                document.getElementById("perfilImagen").src = e.target.result;
+
+                // Guardar la imagen en localStorage
+                localStorage.setItem("perfilImagen", e.target.result);
+            };
+            reader.readAsDataURL(archivo);
+        }
+    });
+</script>
+
+</body>
+</html>
